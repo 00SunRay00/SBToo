@@ -1,9 +1,74 @@
 <!DOCTYPE html>
-<html></html>
+<html lang="ru">
 <head>
-  <title>Coming soon...</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Правила СБТ</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: sans-serif;
+      background: #121212;
+      color: #e0e0e0;
+      line-height: 1.6;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2rem;
+    }
+
+    .rule {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: #1e1e1e;
+      border-left: 4px solid #555;
+      border-radius: 8px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .rule.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .note {
+      margin-top: 30px;
+      font-style: italic;
+      text-align: center;
+      color: #aaa;
+    }
+  </style>
 </head>
 <body>
-  <p>Coming soon...</p>
+  <h1>Правила СБТ</h1>
+  <div id="rules-container"></div>
+  <div class="note">••••••••••••••••••••••••••••<br>При серьёзных или повторяющихся нарушениях наказания могут быть ужесточены.</div>
+
+  <script>
+    const rules = [
+      ["Не материться и не писать сообщения которые не являются рп, только можно если в нрп чат.", "Мут на 10 минут"],
+      ["Не выходить за города-локации, если вы нашли проход через который можно выйти, сообщите это админам в нрп чат."],
+      ["Не спамить по табличкам которые начинают игры, например шоу даун, и мини игры (если игру объявили и сказали нажимать — нажимайте).", "Наказание: вас лишают права нажимать на кнопки и таблички, при повторном: Бан"],
+      ["Не пытаться найти техническую ошибку для личной выгоды.", "Кик с сервера на 1 хост"],
+      ["Соблюдать рп на сервере, если вы не соблюдаете рп —", "Кик с сервера или мут на 20 минут"],
+      ["Не использовать читы и всякие приложения облегчающие пвп.", "Кик с сервера и выкл. функция пвп на 3 хоста"],
+      ["Не срывать сюжет типо — «почините броню пожалуйста», «снимите меня с роли» и подобное.", "Мут 10 минут"]
+    ];
+
+    const container = document.getElementById('rules-container');
+
+    rules.forEach(([text, punishment], index) => {
+      const ruleDiv = document.createElement('div');
+      ruleDiv.className = 'rule';
+      ruleDiv.innerHTML = `<strong>${text}</strong>${punishment ? `<br><em>~ ${punishment}</em>` : ''}`;
+      container.appendChild(ruleDiv);
+      setTimeout(() => ruleDiv.classList.add('show'), index * 150);
+    });
+  </script>
 </body>
 </html>
