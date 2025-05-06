@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>СБТ Роли</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #ffffff;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .roles-wrapper {
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .group-title {
+      font-size: 1.2rem;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+
+    .role-card {
+      padding: 10px 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin: 5px 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .role-card.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Роли СБТ</h1>
+  <div class="roles-wrapper" id="roles-container"></div>
+  <button onclick="loadRoles()">Обновить роли</button>
+
+  <script>
+    async function loadRoles() {
+      const response = await fetch('roles.json');
+      const data = await response.json();
+      const container = document.getElementById('roles-container');
+      container.innerHTML = '';
+
+      for (const group in data) {
+        const groupHeader = document.createElement('div');
+        groupHeader.textContent = group;
+        groupHeader.className = 'group-title';
+        container.appendChild(groupHeader);
+
+        data[group].forEach((role, index) => {
+          const card = document.createElement('div');
+          card.className = 'role-card';
+          card.textContent = `${role.role} — ${role.player}`;
+          container.appendChild(card);
+          setTimeout(() => card.classList.add('show'), index * 100);
+        });
+      }
+    }
+
+    loadRoles();
+  </script>
+</body>
+</html>
