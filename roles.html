@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>СБТ Роли</title>
   <style>
     body {
@@ -19,6 +19,29 @@
     h1 {
       font-size: 2rem;
       margin-bottom: 20px;
+    }
+
+    .controls {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    button {
+      padding: 8px 16px;
+      font-size: 1rem;
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #444;
     }
 
     .roles-wrapper {
@@ -50,53 +73,60 @@
       opacity: 1;
       transform: translateY(0);
     }
-
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 1rem;
-      background: #333;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    button:hover {
-      background: #444;
-    }
   </style>
 </head>
 <body>
   <h1>Роли СБТ</h1>
+  <div class="controls">
+    <button onclick="loadRoles('all')">Показать все</button>
+    <button onclick="loadRoles('free')">Только свободные</button>
+    <button onclick="loadRoles('taken')">Только занятые</button>
+  </div>
   <div class="roles-wrapper" id="roles-container"></div>
-  <button onclick="loadRoles()">Обновить роли</button>
 
   <script>
-    async function loadRoles() {
-      const response = await fetch('roles.json');
-      const data = await response.json();
+    let rawData = {};
+
+    function isFree(player) {
+      return !player || player.trim().toLowerCase() === 'никто';
+    }
+
+    async function fetchRoles() {
+      const res = await fetch('roles.json');
+      rawData = await res.json();
+      loadRoles('all');
+    }
+
+    function loadRoles(filter = 'all') {
       const container = document.getElementById('roles-container');
       container.innerHTML = '';
 
-      for (const group in data) {
+      for (const group in rawData) {
+        const filtered = rawData[group].filter(role => {
+          const player = role.player || '';
+          if (filter === 'free') return isFree(player);
+          if (filter === 'taken') return !isFree(player);
+          return true;
+        });
+
+        if (filtered.length === 0) continue;
+
         const groupHeader = document.createElement('div');
-        groupHeader.textContent = group;
         groupHeader.className = 'group-title';
+        groupHeader.textContent = group;
         container.appendChild(groupHeader);
 
-        data[group].forEach((role, index) => {
+        filtered.forEach((role, index) => {
           const card = document.createElement('div');
           card.className = 'role-card';
-          card.textContent = `${role.role} — ${role.player}`;
+          card.textContent = `${role.role} — ${role.player || 'никто'}`;
           container.appendChild(card);
           setTimeout(() => card.classList.add('show'), index * 100);
         });
       }
     }
 
-    loadRoles();
+    fetchRoles();
   </script>
 </body>
 </html>
