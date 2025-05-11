@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Информация о Bedrock-сервере</title>
+  <meta charset="UTF-8">
+  <title>Инфо о сервере SBToo</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom right, #ffffff, #fdf6ed, #d6b3ff);
-      color: #333;
+      background: linear-gradient(to bottom right, #fff, #f5ede6, #d3b1ff);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -18,19 +15,18 @@
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 16px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      padding: 30px 40px;
-      max-width: 420px;
+      max-width: 400px;
       width: 100%;
       text-align: center;
     }
 
-    .title {
-      font-size: 26px;
+    h1 {
+      color: #6c3fd1;
       margin-bottom: 20px;
-      color: #7a42d1;
     }
 
     .info {
@@ -41,49 +37,38 @@
     .status {
       font-weight: bold;
     }
-
-    .loader {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #888;
-    }
   </style>
 </head>
 <body>
   <div class="card">
-    <div class="title">📱 Bedrock-сервер</div>
+    <h1>🌍 Сервер SBToo</h1>
     <div class="info" id="ip">IP: —</div>
     <div class="info" id="port">Порт: —</div>
     <div class="info" id="version">Версия: —</div>
     <div class="info" id="players">Онлайн: —</div>
-    <div class="info" id="motd">Название мира: —</div>
+    <div class="info" id="motd">Мир: —</div>
     <div class="info status" id="status">Загрузка...</div>
   </div>
 
   <script>
-    const SERVER_IP = "SBToo.aternos.me";
-    const SERVER_PORT = 58176;
+    const IP = "SBToo.aternos.me";
+    const PORT = 58176;
 
-    async function fetchBedrockInfo() {
-      try {
-        const res = await fetch(`https://api.mcstatus.io/v2/status/bedrock/${SERVER_IP}:${SERVER_PORT}`);
-        const data = await res.json();
-
-        document.getElementById("ip").textContent = `IP: ${SERVER_IP}`;
-        document.getElementById("port").textContent = `Порт: ${SERVER_PORT}`;
-        document.getElementById("version").textContent = `Версия: ${data.version?.name || "Неизвестна"}`;
-        document.getElementById("players").textContent = `Онлайн: ${data.players?.online || 0} / ${data.players?.max || "?"}`;
-        document.getElementById("motd").textContent = `Название мира: ${data.motd?.clean || "—"}`;
-
-        document.getElementById("status").textContent = data.online ? "🟢 Сервер в сети" : "🔴 Сервер офлайн";
+    fetch(`https://api.mcstatus.io/v2/status/bedrock/${IP}:${PORT}`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("ip").textContent = `IP: ${IP}`;
+        document.getElementById("port").textContent = `Порт: ${PORT}`;
+        document.getElementById("version").textContent = `Версия: ${data.version?.name || "—"}`;
+        document.getElementById("players").textContent = `Онлайн: ${data.players.online}/${data.players.max}`;
+        document.getElementById("motd").textContent = `Мир: ${data.motd.clean || "—"}`;
+        document.getElementById("status").textContent = data.online ? "🟢 Сервер в сети" : "🔴 Офлайн";
         document.getElementById("status").style.color = data.online ? "#2ecc71" : "#e74c3c";
-      } catch (e) {
-        document.getElementById("status").textContent = "Ошибка при загрузке данных";
-        console.error(e);
-      }
-    }
-
-    fetchBedrockInfo();
+      })
+      .catch(err => {
+        document.getElementById("status").textContent = "Ошибка получения данных";
+        console.error(err);
+      });
   </script>
 </body>
 </html>
