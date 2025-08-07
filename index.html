@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <style>
+    :root {
+      --bg: #212121;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --accent: #8c52ff;
+      --text: #e0e0e0;
+      --hover: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: var(--bg);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text);
+      text-align: center;
+      padding: 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      animation: fadeIn 1s ease forwards;
+      max-width: 90%;
+      width: 500px;
+      white-space: pre-line;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: var(--hover);
+    }
+
+    p {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    a {
+      display: block;
+      margin: 12px 0;
+      font-size: 18px;
+      text-decoration: none;
+      color: var(--accent);
+      transition: all 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--hover);
+      transform: translateX(5px);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 30px 20px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      p, a {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Добро пожаловать в Vortex🗣</h1>
+    <p>
+— проект по Minecraft Bedrock, где вас ждут мини-игры, события и активное комьюнити 😉
+
+✅Уже сейчас доступно:
+• Общение в чате  
+• Игры с помощью Telegram-ботов  
+• игра Бункер
+
+🔰В разработке:
+• Бравл Старс в Майнкрафте  
+• Прятки  
+• ивенты
+
+Присоединяйтесь и следите за обновлениями 🛠
+
+—Так-же доступен чат, присоединяйтесь💫  
+↓
+    </p>
+    <a href="https://t.me/vortexbechat" target="_blank">https://t.me/vortexbechat</a>
+  </div>
+</body>
+</html>
