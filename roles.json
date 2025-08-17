@@ -1,1 +1,6 @@
-{'is_key': True, 'is_premium': False, 'is_subscribed': True, 'message': 'Действительный ключ'}
+{
+  "is_key": true,
+  "is_premium": false,
+  "is_subscribed": true,
+  "message": "Действительный ключ"
+}
