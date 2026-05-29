@@ -1,0 +1,170 @@
+<html>
+<head>
+<style>
+body{
+margin:0;
+height:100vh;
+font-family:sans-serif;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+}
+
+/* фон */
+.bg{
+position:absolute;
+inset:0;
+background:url("BACKGROUND_URL") center/cover no-repeat;
+transform:scale(1.05);
+}
+
+/* затемнение + виньетка */
+.overlay{
+position:absolute;
+inset:0;
+background:radial-gradient(circle at center, rgba(0,0,0,0.4), rgba(0,0,0,0.85));
+}
+
+/* центр */
+.box{
+position:relative;
+z-index:2;
+text-align:center;
+width:600px;
+animation:pulse 3s infinite ease-in-out;
+}
+
+.title{
+font-size:42px;
+font-weight:800;
+letter-spacing:4px;
+text-shadow:0 0 20px rgba(255,255,255,0.4);
+margin-bottom:10px;
+}
+
+.subtitle{
+opacity:0.7;
+margin-bottom:25px;
+}
+
+/* BAR */
+.bar{
+height:18px;
+border-radius:10px;
+border:1px solid rgba(255,255,255,0.3);
+overflow:hidden;
+background:rgba(255,255,255,0.05);
+box-shadow:0 0 20px rgba(0,0,0,0.5);
+position:relative;
+}
+
+/* determinate fill */
+.fill{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#3b82f6,#22c55e);
+box-shadow:0 0 15px rgba(59,130,246,0.6);
+transition:width 0.25s ease;
+}
+
+/* indeterminate animation */
+.indeterminate{
+position:absolute;
+top:0;
+left:-40%;
+width:40%;
+height:100%;
+background:linear-gradient(90deg,transparent,rgba(255,255,255,0.5),transparent);
+animation:move 1.2s infinite;
+}
+
+@keyframes move{
+0%{left:-40%}
+100%{left:100%}
+}
+
+/* percent */
+.percent{
+margin-top:10px;
+opacity:0.8;
+}
+
+/* dots */
+.dots::after{
+content:"";
+display:inline-block;
+animation:dots 1.5s infinite steps(4);
+}
+
+@keyframes dots{
+0%{content:""}
+25%{content:"."}
+50%{content:".."}
+75%{content:"..."}
+100%{content:""}
+}
+
+/* pulse */
+@keyframes pulse{
+0%{transform:scale(1)}
+50%{transform:scale(1.01)}
+100%{transform:scale(1)}
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+<div class="overlay"></div>
+
+<div class="box">
+<div class="title">ShotRP</div>
+<div class="subtitle">Загрузка игровых данных <span class="dots"></span></div>
+
+<div class="bar">
+<div class="fill" id="fill"></div>
+<div class="indeterminate" id="indet"></div>
+</div>
+
+<div class="percent" id="percent">Загрузка...</div>
+</div>
+
+<script>
+// режим: true = неизвестный прогресс, false = процентный
+let unknown = true;
+
+let p = 0;
+
+function setUnknownMode(){
+document.getElementById("indet").style.display = "block";
+document.getElementById("fill").style.width = "100%";
+document.getElementById("percent").innerText = "Загрузка данных";
+}
+
+function setPercentMode(){
+document.getElementById("indet").style.display = "none";
+}
+
+function update(){
+if(unknown){
+setUnknownMode();
+} else {
+setPercentMode();
+
+if(p < 100){
+p += 1;
+document.getElementById("fill").style.width = p + "%";
+document.getElementById("percent").innerText = p + "%";
+setTimeout(update, 80);
+}
+}
+}
+
+update();
+</script>
+
+</body>
+</html>
